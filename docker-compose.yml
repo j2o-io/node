@@ -5,9 +5,9 @@ services:
 
   l2:
     image: j2io/op-geth:beta
-#    ports:
-#      - "9545:8545"
-#      - "9546:8546"
+    ports:
+      - "9545:8545"
+      - "9546:8546"
     volumes:
       - "./l2_data:/db"
       - "./genesis.json:/genesis.json"
