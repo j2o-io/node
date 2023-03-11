@@ -4,6 +4,7 @@ services:
 
   l2:
     image: j2io/jfc-op-geth:v2.1
+    restart: always
     ports:
       - "8545:8545"
     volumes:
@@ -20,6 +21,7 @@ services:
     depends_on:
       - l2
     image: j2io/jfc-op-node:v2.1
+    restart: always
     command: >
       op-node
       --l1.trustrpc
