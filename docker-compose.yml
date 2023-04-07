@@ -20,23 +20,29 @@ services:
   op-node:
     depends_on:
       - l2
-    image: j2io/jfc-op-node:v2.1
-    restart: always
+    image: j2io/jfc-op-node:2.3-bsc
     command: >
       op-node
       --l1.trustrpc
+      --l1.rpckind=erigon
       --l1=https://rpc.jfinchain.com
       --l2=http://l2:8551
-      --l2.jwt-secret=/config/test-jwt-secret.txt
+      --l2.jwt-secret=/config/jwt.txt
       --rollup.config=/rollup.json
       --rpc.addr=0.0.0.0
       --rpc.port=8545
+      --p2p.bootnodes=enr:-J64QFuOWBOp8BClQF4CAnD6dbmxCgsAtkcY876LQxgyFtdXC9bqTF0CLveypCLKxDHlTGvgVOQunSgOHik3lyc5-iCGAYbLZMVLgmlkgnY0gmlwhEFsaNSHb3BzdGFja4SVrxUAiXNlY3AyNTZrMaECCSurYjeZwx9vc0iOgtXsKxvqjhed9xBiaPrJKCxHJViDdGNwgiMrg3VkcIIjKw
+      --verifier.l1-confs=0
+      --p2p.listen.ip=0.0.0.0
+      --p2p.listen.tcp=9222
+      --p2p.listen.udp=9222
+      --p2p.nat=true
+      --p2p.priv.path=/config/node.txt
+    ports:
+      - "9222:9222"
+    restart: always
     volumes:
-      - "./jwt.txt:/config/test-jwt-secret.txt"
+      - "./jwt.txt:/config/jwt.txt"
+      - "./node.txt:/config/node.txt"
       - "./rollup.json:/rollup.json"
-    environment:
-      - OP_NODE_LOG_LEVEL=info
-      - OP_NODE_METRICS_ADDR=0.0.0.0
-      - OP_NODE_METRICS_ENABLED=true
-      - OP_NODE_METRICS_PORT=7300
-      - OP_NODE_P2P_BOOTNODES=enr:-J64QMO9A5odoDGJi178_z2SMjOLU50NWOKk40dEyNAmVAXaH2hpDCVpYT2mJWHT8tjxpPdkAa_eKrR2oKvK0N0AGRyGAYbMIt3HgmlkgnY0gmlwhEFtGgeHb3BzdGFja4SVrxUAiXNlY3AyNTZrMaEC6El-hPZuJJurOtDhjAQaUdUdcvcRmO4JLZV23BN2JOaDdGNwgibNg3VkcIImzQ,enr:-J64QH2UEpArvgg1n6fTcEVtv1--NZcbCvTIoIcGeOuguyPnDlmN6of_1Fp8DJmQXkbcCDIBD8HuLjtWq4Cdh51GB-SGAYbMQKF0gmlkgnY0gmlwhEFsfv6Hb3BzdGFja4SVrxUAiXNlY3AyNTZrMaEDaZd1l8I0dTXGNNh1AevH5W-WrJUEvOEYcjrXN58KMcCDdGNwgibNg3VkcIImzQ
+
